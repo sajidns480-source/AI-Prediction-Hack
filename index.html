@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI Prediction Hack - Premium</title>
+    <style>
+        :root {
+            --bg-color: #f5f7fb;
+            --primary-blue: #1e6fff;
+            --text-dark: #222222;
+            --text-muted: #8c96a5;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            
+            --ball-red: radial-gradient(circle at 35% 35%, #ff6b6b 0%, #e03131 70%, #b01e1e 100%);
+            --ball-green: radial-gradient(circle at 35% 35%, #51cf66 0%, #2b8a3e 70%, #1b6326 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            /* ডাবল ট্যাপ বা পিঞ্চ জুম বন্ধ করার অ্যাকশন */
+            touch-action: manipulation;
+        }
+
+        body {
+            background-color: #111113;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* লগইন স্ক্রিন ডিজাইন - আরও বিস্তারিত ইনফো সহ */
+        #login-screen {
+            background-color: #1a1a1a;
+            width: 100%;
+            max-width: 415px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .login-box {
+            background-color: #262626;
+            width: 100%;
+            padding: 28px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            text-align: center;
+            border: 1px solid #333;
+        }
+
+        .login-box h2 {
+            color: #ffffff;
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        .login-box p.subtitle {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .login-instructions {
+            text-align: left;
+            background: rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            border-left: 3px solid var(--primary-blue);
+        }
+
+        .login-instructions li {
+            color: #ccc;
+            font-size: 12px;
+            margin-left: 14px;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 2px solid #444;
+            background-color: #1a1a1a;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+            margin-bottom: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .login-box input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .btn-login {
+            width: 100%;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(30, 111, 255, 0.3);
+            margin-bottom: 16px;
+        }
+
+        .btn-get-pw {
+            display: inline-block;
+            width: 100%;
+            background-color: #24a1de;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(36, 161, 222, 0.2);
+        }
+
+        .error-msg {
+            color: #ff4d4d;
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+            font-weight: 600;
+        }
+
+        /* মেইন APP ফ্রেম */
+        .app-frame {
+            display: none; 
+            background-color: var(--bg-color);
+            width: 100%;
+            max-width: 415px;
+            min-height: 100vh;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            flex-direction: column;
+            overflow-y: auto;
+            padding-bottom: 40px;
+        }
+
+        /* প্রিমিয়াম ব্যানার সেকশন */
+        .banner-box {
+            position: relative;
+            margin: 12px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            height: 145px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background-image: url('https://i.postimg.cc/yN1yx00H/1772112830239.png');
+            background-size: cover;
+            background-position: center 38%;
+        }
+
+        .banner-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.1) 100%);
+        }
+
+        .banner-left h2 { color: #1a45a3; font-size: 22px; font-weight: 800; line-height: 1.2; margin-bottom: 4px; }
+        .banner-left p { color: #5c7ba9; font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+        
+        .btn-contact {
+            display: inline-block;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(30, 111, 255, 0.3);
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .top-rate-display {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #fff;
+            padding: 10px 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .top-rate-display .label { font-size: 10px; color: #5c7ba9; font-weight: 800; text-transform: uppercase; }
+        .top-rate-display .value { font-size: 28px; color: var(--primary-blue); font-weight: 900; }
+
+        /* সংক্ষিপ্ত DESH CLUB ডেসক্রিপশন বক্স ডিজাইন */
+        .casino-desc-box {
+            background: white;
+            margin: 0 12px 12px 12px;
+            padding: 10px 14px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border-left: 4px solid var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .casino-desc-box .text-side {
+            flex: 1;
+        }
+        .casino-desc-box h3 {
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 800;
+            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+        }
+        .casino-desc-box p {
+            font-size: 11.5px;
+            color: #666;
+            font-weight: 500;
+        }
+        .badge-verified {
+            background: #e6f4ea;
+            color: #137333;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* গেম স্ট্যাটাস ও ডিজিটাল টাইমার */
+        .game-status-row {
+            display: flex;
+            gap: 12px;
+            margin: 0 12px 10px 12px;
+        }
+        .wingo-badge {
+            background: white;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .period-card {
+            background: white;
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            flex: 2;
+            text-align: right;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .period-number { font-size: 14px; font-weight: 700; color: #444; letter-spacing: 0.5px; }
+        .timer-display { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
+        .timer-digits { color: #ff2222; font-size: 22px; font-weight: bold; font-family: 'Courier New', Courier, monospace; margin-left: 5px; }
+
+        /* লটারির কন্টেইনার */
+        .result-box {
+            background: white;
+            margin: 0 12px 15px 12px;
+            padding: 14px 12px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .result-title {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: capitalize;
+        }
+        .ball-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+        }
+        .ball {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            box-shadow: inset -3px -3px 8px rgba(0,0,0,0.3), 1px 3px 6px rgba(0,0,0,0.2);
+            transition: background 0.4s ease-in-out;
+        }
+        
+        .ball.red-ball { background: var(--ball-red); }
+        .ball.green-ball { background: var(--ball-green); }
+
+        .bot-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 0 12px;
+        }
+        
+        .bot-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+        
+        .avatar-box { text-align: center; width: 65px; flex-shrink: 0; }
+        .avatar-circle {
+            width: 54px; height: 54px; border-radius: 50%;
+            border: 2px solid #e2e8f0; margin: 0 auto 6px auto;
+            background-size: cover; background-position: center;
+            background-color: #eee;
+        }
+        .bot-card:nth-child(1) .avatar-circle { border-color: #ffaa00; }
+
+        .bot-user-name { font-size: 14px; color: var(--text-dark); font-weight: 700; }
+        .bot-details { flex: 1; display: flex; align-items: center; justify-content: flex-start; }
+        
+        .plan-row { font-size: 15px; color: #444; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .badge-plan {
+            padding: 6px 22px; border-radius: 20px; color: white; font-weight: 700; font-size: 13px;
+            text-transform: capitalize; display: inline-block;
+            min-width: 75px; text-align: center;
+        }
+        .badge-plan.big { background-color: var(--primary-blue); box-shadow: 0 3px 8px rgba(30,111,255,0.3); }
+        .badge-plan.small { background-color: var(--primary-blue); box-shadow: 0 3px 8px rgba(30,111,255,0.3); }
+        .badge-plan.wait { background-color: #ff9800; box-shadow: 0 3px 8px rgba(255,152,0,0.3); }
+    </style>
+</head> 
+<body>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <h2>Premium Access</h2>
+            <p class="subtitle">Please enter the secret password to continue</p>
+            
+            <div class="login-instructions">
+                <ul style="list-style-type: square;">
+                    <li>𝐃𝐄𝐒𝐇,𝐂𝐋𝐔𝐁 এটি একটি অফিসিয়াল লাইসেন্সকৃত এআই প্রিমিয়াম প্যানেল।</li>
+                    <li>প্যানেলটি অ্যাক্সেস করতে ভেরিফাইড পাসওয়ার্ড ব্যবহার করুন।</li>
+                    <li>আপনার কাছে পাসওয়ার্ড না থাকলে নিচের টেলিগ্রাম বাটনে ক্লিক করুন।</li>
+                </ul>
+            </div>
+
+            <input type="password" id="password-input" placeholder="Enter Password Here">
+            <button class="btn-login" onclick="checkPassword()">Login Now</button>
+            <a href="https://t.me/NSsajid" target="_blank" class="btn-get-pw">🔑 Get Password from Telegram</a>
+            <div class="error-msg" id="error-message">Wrong Password! Please try again.</div>
+        </div>
+    </div>
+
+    <div class="app-frame" id="main-app">
+        <div class="banner-box">
+            <div class="banner-content">
+                <div class="banner-left">
+                    <h2>Developer<br>Sajid</h2>
+                    <p>AI Premium Bot</p>
+                    <a href="https://t.me/NEW_INCOME_SITE_0" target="_blank" class="btn-contact">Contact</a>
+                </div>
+                <div class="top-rate-display">
+                    <div class="label">Top Hit</div>
+                    <div class="value" id="top-hit-display">95%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="casino-desc-box">
+            <div class="text-side">
+                <h3>𝐃𝐄𝐒𝐇,𝐂𝐋𝐔𝐁</h3>
+                <p>বিশ্বস্ত এবং অফিশিয়াল লাইসেন্স করা ক্যাসিনো প্ল্যাটফর্ম।</p>
+            </div>
+            <div class="badge-verified">✓ Licensed</div>
+        </div>
+
+        <div class="game-status-row">
+            <div class="wingo-badge">
+                <span style="font-weight: 800; font-size: 14px; color: #111;">Win Go 30s</span>
+                <span style="font-size: 12px; color: var(--primary-blue); margin-top: 5px; font-weight:700;">more &gt;</span>
+            </div>
+            <div class="period-card">
+                <div class="period-number" id="period-id">XXXXXXXXXXXXXX</div>
+                <div class="timer-display">
+                    Time Remaining <span class="timer-digits" id="timer-val">00:30</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-box">
+            <div class="result-title">Last result</div>
+            <div class="ball-container" id="lottery-balls">
+                <div class="ball red-ball"></div>
+                <div class="ball red-ball"></div>
+                <div class="ball green-ball"></div>
+                <div class="ball red-ball"></div>
+                <div class="ball green-ball"></div>
+                <div class="ball green-ball"></div>
+            </div>
+        </div>
+
+        <div class="bot-list" id="dynamic-bot-container"></div>
+    </div>
+
+    <script>
+        const CORRECT_PASSWORD = "sajid"; 
+
+        function checkPassword() {
+            const userInput = document.getElementById('password-input').value;
+            const loginScreen = document.getElementById('login-screen');
+            const mainApp = document.getElementById('main-app');
+            const errorMsg = document.getElementById('error-message');
+
+            if (userInput === CORRECT_PASSWORD) {
+                loginScreen.style.display = "none";
+                mainApp.style.display = "flex";
+                startPredictionEngine(); 
+            } else {
+                errorMsg.style.display = "block";
+                document.getElementById('password-input').value = "";
+            }
+        }
+
+        let botsData = [
+            { id: "sarah", name: "Sarah", hitRate: 95, initialPlan: "Big", img: "https://randomuser.me/api/portraits/women/4.jpg" },
+            { id: "sophia", name: "Sophia", hitRate: 90, initialPlan: "Small", img: "https://randomuser.me/api/portraits/women/6.jpg" },
+            { id: "alex", name: "Alex", hitRate: 85, initialPlan: "Big", img: "https://randomuser.me/api/portraits/women/2.jpg" },
+            { id: "adam", name: "Adam", hitRate: 80, initialPlan: "Small", img: "https://randomuser.me/api/portraits/men/1.jpg" },
+            { id: "evan", name: "Evan", hitRate: 75, initialPlan: "Big", img: "https://randomuser.me/api/portraits/men/3.jpg" },
+            { id: "mike", name: "Mike", hitRate: 70, initialPlan: "Small", img: "https://randomuser.me/api/portraits/men/5.jpg" }
+        ];
+
+        botsData.sort((a, b) => b.hitRate - a.hitRate);
+        document.getElementById('top-hit-display').innerText = botsData[0].hitRate + "%";
+
+        const container = document.getElementById('dynamic-bot-container');
+        botsData.forEach(bot => {
+            const card = document.createElement('div');
+            card.className = "bot-card";
+            card.innerHTML = `
+                <div class="avatar-box">
+                    <div class="avatar-circle" style="background-image: url('${bot.img}');"></div>
+                    <div class="bot-user-name">${bot.name}</div>
+                </div>
+                <div class="bot-details">
+                    <div class="plan-row">Plan: <span class="badge-plan ${bot.initialPlan.toLowerCase()}" id="plan-${bot.id}">${bot.initialPlan}</span></div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        let currentSignals = {};
+        botsData.forEach(b => currentSignals[b.id] = b.initialPlan);
+        let lastProcessedPeriod = "";
+
+        function generateLotteryWithBotColors() {
+            const ballContainer = document.getElementById('lottery-balls');
+            ballContainer.innerHTML = ''; 
+
+            let ballColors = [];
+            botsData.forEach(bot => {
+                if (currentSignals[bot.id] === "Small") {
+                    ballColors.push('red');
+                } else {
+                    ballColors.push('green');
+                }
+            });
+
+            ballColors.sort(() => Math.random() - 0.5);
+
+            for (let i = 0; i < 6; i++) {
+                const colorClass = ballColors[i] === 'red' ? 'red-ball' : 'green-ball';
+                const ballHtml = `<div class="ball ${colorClass}"></div>`;
+                ballContainer.insertAdjacentHTML('beforeend', ballHtml);
+            }
+        }
+
+        function startPredictionEngine() {
+            generateLotteryWithBotColors();
+
+            setInterval(() => {
+                const now = new Date();
+                const currentSec = now.getSeconds();
+                
+                const rem = 30 - (currentSec % 30);
+                document.getElementById('timer-val').innerText = `00:${rem.toString().padStart(2, '0')}`;
+
+                const interval = Math.floor(((now.getHours() * 3600) + (now.getMinutes() * 60) + currentSec) / 30);
+                
+                const yyyy = now.getFullYear();
+                const mm = String(now.getMonth() + 1).padStart(2, '0');
+                const dd = String(now.getDate()).padStart(2, '0');
+                
+                const currentPeriodStr = `${yyyy}${mm}${dd}1000${55637 + interval}`;
+                document.getElementById('period-id').innerText = currentPeriodStr;
+
+                if (rem === 30 && lastProcessedPeriod !== currentPeriodStr) {
+                    lastProcessedPeriod = currentPeriodStr;
+                    
+                    botsData.forEach(bot => {
+                        currentSignals[bot.id] = Math.random() > 0.5 ? "Big" : "Small";
+                    });
+
+                    generateLotteryWithBotColors();
+                }
+
+                botsData.forEach(bot => {
+                    const el = document.getElementById(`plan-${bot.id}`);
+                    if (el) {
+                        if (rem <= 5) {
+                            el.innerText = "Wait";
+                            el.className = "badge-plan wait";
+                        } else {
+                            el.innerText = currentSignals[bot.id];
+                            el.className = `badge-plan ${currentSignals[bot.id].toLowerCase()}`;
+                        }
+                    }
+                });
+
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
